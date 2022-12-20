@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'crypto';
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
@@ -9,6 +10,7 @@ async function main() {
     where: { email: 'andreyelyan.contato@gmail.com' },
     update: {},
     create: {
+      id: randomUUID(),
       name: 'Andrey',
       lastName: 'Silveira',
       password: '12345678',
@@ -23,6 +25,7 @@ async function main() {
     where: { email: 'andreyelyan@gmail.com' },
     update: {},
     create: {
+      id: randomUUID(),
       name: 'Andrey',
       lastName: 'Elyan',
       password: '12345678',
