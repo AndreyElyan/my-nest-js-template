@@ -1,4 +1,4 @@
-import { UserInformation } from './user-inormation';
+import { UserInformation } from './user-information';
 import { UserPassword } from './user-password';
 
 describe('User Information', () => {

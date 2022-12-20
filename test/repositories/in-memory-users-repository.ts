@@ -1,4 +1,4 @@
-import { UserInformation } from '../../src/app/entities/users/user-inormation/user-inormation';
+import { UserInformation } from '../../src/app/entities/users/user-information/user-information';
 import { UsersRepository } from '../../src/app/repositories/users-repository';
 
 export class InMemoryUsersRepository implements UsersRepository {
