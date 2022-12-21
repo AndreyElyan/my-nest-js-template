@@ -3,6 +3,7 @@ import { UserInformation } from 'src/app/entities/users/user-information/user-in
 
 import { UserPassword } from 'src/app/entities/users/user-information/user-password';
 import { UsersRepository } from 'src/app/repositories/users-repository';
+import { EmailAlreadyExistsError } from '../errors/users/email-already-exists';
 
 interface CreateUserRequest {
   name: string;
@@ -33,6 +34,12 @@ export class CreateUser {
       name,
       password: new UserPassword(password),
     });
+
+    const emailExists = await this.usersRepository.findByEmail(email);
+
+    if (emailExists !== null) {
+      throw new EmailAlreadyExistsError();
+    }
 
     await this.usersRepository.create(user);
 

@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { UserInformationViewModel } from '@infra/http/view-models/users/user-view-model';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateUser } from 'src/app/use-cases/users/create-user';
 
 import { CreateUserBody } from '../../dtos/create-user-body';
@@ -22,6 +23,11 @@ export class UsersController {
       email,
     });
 
-    return user;
+    return { user: UserInformationViewModel.toResponse(user) };
+  }
+
+  @Get()
+  async get() {
+    return 'av';
   }
 }

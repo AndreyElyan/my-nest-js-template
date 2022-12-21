@@ -11,12 +11,19 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true, 
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@app/*": ["./src/app/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@infra/*": ["./src/infra/*"],
+      "@test/*": ["./test/*"]
+    },
+    "resolveJsonModule": true
   }
 }
