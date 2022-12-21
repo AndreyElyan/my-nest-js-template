@@ -1,4 +1,4 @@
-import { CreateUser } from 'src/app/use-cases/users/create-user';
+import { CreateUser } from '@infra/auth/users/create-user';
 import { InMemoryUsersRepository } from '../../../../test/repositories/in-memory-users-repository';
 
 describe('User Information', () => {

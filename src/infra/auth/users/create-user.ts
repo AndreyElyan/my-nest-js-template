@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UserInformation } from 'src/app/entities/users/user-information/user-information';
+import { UserInformation } from '@app/entities/users/user-information/user-information';
 
-import { UserPassword } from 'src/app/entities/users/user-information/user-password';
-import { UsersRepository } from 'src/app/repositories/users-repository';
-import { EmailAlreadyExistsError } from '../errors/users/email-already-exists';
+import { UserPassword } from '@app/entities/users/user-information/user-password';
+import { UsersRepository } from '@app/repositories/users-repository';
+import { EmailAlreadyExistsError } from '../../../app/use-cases/errors/users/email-already-exists';
 
 interface CreateUserRequest {
   name: string;
@@ -18,6 +18,7 @@ interface CreateUserRequest {
 interface CreateUserResponse {
   user: UserInformation;
 }
+
 @Injectable()
 export class CreateUser {
   constructor(private usersRepository: UsersRepository) {}
