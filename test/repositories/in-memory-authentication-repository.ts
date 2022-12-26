@@ -3,7 +3,6 @@ import { Authentication } from '@app/entities/authentication/authentication';
 import { UserPassword } from '@app/entities/users/user-information/user-password';
 
 import { AuthenticationRepository } from '@app/repositories/authentication-repository';
-import { ValidateLoginBody } from '@infra/http/dtos/authentication/validate-login-body';
 
 export class InMemoryAuthenticationRepository
   implements AuthenticationRepository
@@ -20,7 +19,7 @@ export class InMemoryAuthenticationRepository
     return null;
   }
 
-  login(user: ValidateLoginBody) {
+  login(user: any) {
     return user;
   }
 }

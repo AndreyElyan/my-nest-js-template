@@ -25,8 +25,6 @@ export class ValidateLogin {
 
     const userResponse = await this.authenticationRepository.validate(user);
 
-    console.log(userResponse);
-
     if (!userResponse) {
       throw new UnauthorizedException();
     }

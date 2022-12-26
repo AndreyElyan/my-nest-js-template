@@ -1,14 +1,22 @@
-import { UserInformationViewModel } from '@infra/http/view-models/users/user-view-model';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  UserDataViewModel,
+  UserInformationViewModel,
+} from '@infra/http/view-models/users/user-view-model';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateUser } from '@infra/auth/users/create-user';
 
 import { CreateUserBody } from '../../dtos/create-user-body';
+import { JwtAuthGuard } from '@infra/auth/jwt-auth.guard';
+import { GetUserById } from '@infra/auth/users/get-user-by-id';
 
 @Controller('users')
 export class UsersController {
-  constructor(private createUser: CreateUser) {}
+  constructor(
+    private createUser: CreateUser,
+    private getUserById: GetUserById,
+  ) {}
 
-  @Post()
+  @Post('/create')
   async create(@Body() body: CreateUserBody) {
     const { name, lastName, password, dateOfBirth, gender, cellPhone, email } =
       body;
@@ -26,8 +34,11 @@ export class UsersController {
     return { user: UserInformationViewModel.toResponse(user) };
   }
 
-  @Get()
-  async get() {
-    return 'av';
+  @UseGuards(JwtAuthGuard)
+  @Get('/:id')
+  async get(@Param('id') id: string) {
+    const user = await this.getUserById.execute(id);
+
+    return { user: UserDataViewModel.toResponse(user) };
   }
 }

@@ -18,8 +18,18 @@ export class PrismaUsersRepository implements UsersRepository {
     });
   }
 
-  async get(): Promise<void> {
-    await this.prismaService.users.findMany();
+  async getUserById(id: string): Promise<Users> | null {
+    const user = await this.prismaService.users.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
   }
 
   async findByEmail(email: string): Promise<Users | null> {

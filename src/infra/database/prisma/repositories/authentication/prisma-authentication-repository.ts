@@ -1,8 +1,9 @@
 import { Authentication } from '@app/entities/authentication/authentication';
+import { jwtConstants } from '@app/entities/authentication/constants';
 
 import { AuthenticationRepository } from '@app/repositories/authentication-repository';
 import { WrongEmailPasswordError } from '@app/use-cases/errors/users/wrong-email-password';
-import { ValidateLoginBody } from '@infra/http/dtos/authentication/validate-login-body';
+
 import { Injectable } from '@nestjs/common';
 
 import { JwtService } from '@nestjs/jwt';
@@ -18,8 +19,11 @@ export class PrismaAuthenticationRepository
     private jwtService: JwtService,
   ) {}
 
-  async validate(user: Authentication): Promise<any> {
-    const { email, password } = user;
+  public id = '';
+
+  async validate(userRequest: Authentication): Promise<any> {
+    const { email, password } = userRequest;
+
     const _user = await this.prismaService.users.findUnique({
       where: {
         email,
@@ -30,20 +34,21 @@ export class PrismaAuthenticationRepository
       throw new WrongEmailPasswordError();
     }
     if (_user.password === password.value) {
-      return this.login(_user);
+      this.id = _user.id;
+      return this.login(_user.email);
     }
     throw new WrongEmailPasswordError();
   }
 
-  async login(user: ValidateLoginBody) {
+  async login(email: string) {
+    const payload = { email, sub: this.id };
     return {
-      access_token: this.jwtService.sign(
-        { email: user.email },
-        {
-          secret: 'topSecret512',
-          expiresIn: '50s',
-        },
-      ),
+      id: this.id,
+      expiresIn: '30d',
+      access_token: `Bearer ${this.jwtService.sign(
+        { payload },
+        { secret: jwtConstants.secret, expiresIn: '30d' },
+      )}`,
     };
   }
 }
